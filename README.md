@@ -20,10 +20,55 @@ Microservices Architecture: General Concepts and Implementations in the Spring E
   - Distributed Tracing → [Zipkin](https://zipkin.io/)
 - Health check → [Spring Boot Actuator](https://docs.spring.io/spring-boot/how-to/actuator.html)
 
+## Running the Application
+
+1. Clone repository
+```
+git clone https://github.com/sevketbuyukdemir/microservices.git
+```
+2. Run services via Docker Desktop
+- Create and start container for the first time:
+```
+docker-compose up -d
+```
+- Start an existing container:
+```
+docker-compose start
+```
+- Stop the running container:
+```
+docker-compose stop
+```
+- Perform a clean restart (stops containers and removes volumes):
+```
+docker-compose down -v
+```
+
+# Services and Their External Ports
+
+| Service       | Host Port | Description                      |
+| ------------- | --------- | -------------------------------- |
+| Zookeeper     | 2181      | Client connections for Zookeeper |
+| ZooNavigator  | 9000      | Web UI for Zookeeper             |
+| RabbitMQ      | 5672      | AMQP messaging port              |
+| RabbitMQ      | 15672     | RabbitMQ management web UI       |
+| Redis         | 6379      | Redis default port               |
+| Kafka         | 9092      | Kafka broker port                |
+| Kafka UI      | 8082      | Web UI for Kafka                 |
+| PostgreSQL    | 5432      | Keycloak database                |
+| Keycloak      | 8080      | Keycloak admin console           |
+| MySQL         | 3306      | MySQL database                   |
+| Consul        | 8500      | Consul web UI and API            |
+| Prometheus    | 9090      | Prometheus web UI                |
+| Perses        | 8081      | Perses dashboard                 |
+| Zipkin        | 9411      | Zipkin tracing UI                |
+| Elasticsearch | 9200      | Elasticsearch REST API           |
+| Kibana        | 5601      | Kibana web UI for Elasticsearch  |
+
 # Technologies & Platforms
 
 > [!NOTE]
-> I mentioned my preferences above; other alternatives are listed below.
+> I mentioned my preferences above (General Concepts & Technologies); other alternatives are listed below.
 
 ### API Gateway
 

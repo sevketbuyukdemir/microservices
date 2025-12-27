@@ -1,0 +1,105 @@
+{
+  "realm": "dev",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "admin-client-application",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "secret": "admin-secret-change-me",
+      "publicClient": false,
+      "attributes": { "access.token.lifespan": "3600" },
+      "serviceAccountsEnabled": true,
+      "clientAuthenticatorType": "client-secret"
+    },
+    {
+      "clientId": "user-client-application",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "secret": "user-secret-change-me",
+      "publicClient": false,
+      "attributes": { "access.token.lifespan": "3600" },
+      "serviceAccountsEnabled": true,
+      "clientAuthenticatorType": "client-secret"
+    },
+    {
+      "clientId": "frontend-application",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "attributes": {
+        "access.token.lifespan": "3600",
+        "pkce.code.challenge.method": "S256"
+      },
+      "redirectUris": [
+        "http://localhost:3000/*",
+        "https://oauth.pstmn.io/v1/callback",
+        "https://www.postman.com/oauth2/callback"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "id": "admin-role-id",
+        "name": "ADMIN",
+        "description": "Admin role"
+      },
+      {
+        "id": "user-role-id",
+        "name": "USER",
+        "description": "User role"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin-client-application",
+      "enabled": true,
+      "serviceAccountClientId": "admin-client-application",
+      "realmRoles": ["ADMIN"]
+    },
+    {
+      "username": "user-client-application",
+      "enabled": true,
+      "serviceAccountClientId": "user-client-application",
+      "realmRoles": ["USER"]
+    },
+    {
+      "username": "admin@dev.com",
+      "email": "admin@dev.com",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN"
+      ]
+    },
+    {
+      "username": "user@dev.com",
+      "email": "user@dev.com",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "USER"
+      ]
+    }
+  ]
+}
