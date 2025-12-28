@@ -161,6 +161,19 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=sqlite3
+    restart: always
+    ports:
+      - "3000:3000"
+      - "222:22"
+    volumes:
+      - ./gitea/data:/data
 volumes:
   zookeeper_data:
   zookeeper_datalog:
