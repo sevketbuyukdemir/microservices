@@ -81,7 +81,6 @@ docker-compose down -v
 | Zipkin        | 9411      | Zipkin tracing UI                     | [Zipkin](http://localhost:9411)        |
 | Elasticsearch | 9200      | Elasticsearch REST API                | [Elasticsearch](http://localhost:9200) |
 | Kibana        | 5601      | Kibana web UI for Elasticsearch       | [Kibana](http://localhost:5601)        |
-| Gitea         | 3000      | Git server                            | [Gitea](http://localhost:3000)         |
 | API Gateway   | 4000      | Routes requests to microservices      |                                        |
 | Config Server | 4001      | central config, registers with Consul |                                        |
 

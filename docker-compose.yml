@@ -106,7 +106,6 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: basic_authentication
       MYSQL_USER: devuser
       MYSQL_PASSWORD: devuser
     volumes:
@@ -161,19 +160,6 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
-  gitea:
-    image: gitea/gitea:latest
-    container_name: gitea
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-      - GITEA__database__DB_TYPE=sqlite3
-    restart: always
-    ports:
-      - "3000:3000"
-      - "222:22"
-    volumes:
-      - ./gitea/data:/data
 volumes:
   zookeeper_data:
   zookeeper_datalog:

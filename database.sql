@@ -1,11 +1,14 @@
-CREATE DATABASE IF NOT EXISTS test;
-USE test;
-CREATE TABLE IF NOT EXISTS `USERS` (
-    `id` bigint NOT NULL AUTO_INCREMENT,
-    `email` varchar(255) NOT NULL,
-    `password` varchar(255) NOT NULL,
-    `firstname` varchar(45) NOT NULL,
-    `surname` varchar(45) NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`)
+# Config server database
+CREATE DATABASE IF NOT EXISTS configserver;
+USE configserver;
+CREATE USER 'config_server'@'%' IDENTIFIED BY 'config_server';
+GRANT ALL PRIVILEGES ON configserver.* TO 'config_server'@'%';
+FLUSH PRIVILEGES;
+CREATE TABLE IF NOT EXISTS PROPERTIES (
+    APPLICATION VARCHAR(100) NOT NULL,
+    PROFILE VARCHAR(100) NOT NULL,
+    LABEL VARCHAR(100) DEFAULT 'main',
+    propertyKEY VARCHAR(200) NOT NULL,
+    propertyVALUE TEXT,
+    PRIMARY KEY (APPLICATION, PROFILE, LABEL, propertyKEY)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
