@@ -36,8 +36,7 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS product_categories (
     `id` bigint NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `unique_category` (`name`)
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE IF NOT EXISTS product_category_map (
