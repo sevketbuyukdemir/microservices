@@ -40,7 +40,7 @@ public class Product {
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "product_category_map",
             joinColumns = {@JoinColumn(name = "product_id")},
@@ -48,7 +48,7 @@ public class Product {
     )
     private Set<ProductCategory> categories;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "product_attribute_map",
             joinColumns = {@JoinColumn(name = "product_id")},
