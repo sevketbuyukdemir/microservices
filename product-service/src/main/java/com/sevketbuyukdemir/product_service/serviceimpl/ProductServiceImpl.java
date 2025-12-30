@@ -1,7 +1,9 @@
 package com.sevketbuyukdemir.product_service.serviceimpl;
 
+import com.sevketbuyukdemir.product_service.constant.ProductEventType;
 import com.sevketbuyukdemir.product_service.dto.ProductDTO;
 import com.sevketbuyukdemir.product_service.entity.Product;
+import com.sevketbuyukdemir.product_service.events.ProductEvent;
 import com.sevketbuyukdemir.product_service.repository.ProductAttributeRepository;
 import com.sevketbuyukdemir.product_service.repository.ProductCategoryRepository;
 import com.sevketbuyukdemir.product_service.repository.ProductRepository;
@@ -10,6 +12,7 @@ import com.sevketbuyukdemir.product_service.request.UpdateProductRequest;
 import com.sevketbuyukdemir.product_service.response.*;
 import com.sevketbuyukdemir.product_service.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+    private final ApplicationEventPublisher eventPublisher;
     private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final ProductAttributeRepository productAttributeRepository;
@@ -26,7 +30,8 @@ public class ProductServiceImpl implements ProductService {
     public CreateProductResponse createProduct(CreateProductRequest request) {
         Product product = new Product(request.getProduct());
         Product createdProduct = productRepository.save(product);
-        cleanupUnmapped();
+        ProductEvent event = new ProductEvent(this, ProductEventType.CREATED, createdProduct);
+        eventPublisher.publishEvent(event);
         return new CreateProductResponse(new ProductDTO(createdProduct));
     }
 
@@ -48,6 +53,8 @@ public class ProductServiceImpl implements ProductService {
         product.updateProduct(request);
         Product updatedProduct = productRepository.save(product);
         cleanupUnmapped();
+        ProductEvent event = new ProductEvent(this, ProductEventType.UPDATED, updatedProduct);
+        eventPublisher.publishEvent(event);
         return new UpdateProductResponse(new ProductDTO(updatedProduct));
     }
 
@@ -56,6 +63,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.selectByName(name);
         productRepository.delete(product);
         cleanupUnmapped();
+        ProductEvent event = new ProductEvent(this, ProductEventType.DELETED, product);
+        eventPublisher.publishEvent(event);
         return new DeleteProductResponse();
     }
 
