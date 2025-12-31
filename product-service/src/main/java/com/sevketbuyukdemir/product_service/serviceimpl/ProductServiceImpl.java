@@ -3,7 +3,9 @@ package com.sevketbuyukdemir.product_service.serviceimpl;
 import com.sevketbuyukdemir.product_service.constant.ProductEventType;
 import com.sevketbuyukdemir.product_service.dto.ProductDTO;
 import com.sevketbuyukdemir.product_service.entity.Product;
-import com.sevketbuyukdemir.product_service.events.ProductEvent;
+import com.sevketbuyukdemir.product_service.event.ProductEvent;
+import com.sevketbuyukdemir.product_service.redisentity.ProductCache;
+import com.sevketbuyukdemir.product_service.redisrepository.ProductRedisRepository;
 import com.sevketbuyukdemir.product_service.repository.ProductAttributeRepository;
 import com.sevketbuyukdemir.product_service.repository.ProductCategoryRepository;
 import com.sevketbuyukdemir.product_service.repository.ProductRepository;
@@ -25,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final ProductAttributeRepository productAttributeRepository;
+    private final ProductRedisRepository productRedisRepository;
 
     @Override
     public CreateProductResponse createProduct(CreateProductRequest request) {
@@ -37,8 +40,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public GetProductResponse readProduct(String name) {
-        Product product = productRepository.selectByName(name);
-        return new GetProductResponse(new ProductDTO(product));
+        ProductDTO dto;
+        if(productRedisRepository.existsById(name)) {
+            ProductCache cache = productRedisRepository.findById(name).get();
+            dto = cache.getProduct();
+        } else {
+            Product product = productRepository.selectByName(name);
+            dto = new ProductDTO(product);
+            ProductCache cache = new ProductCache(dto);
+            productRedisRepository.save(cache);
+        }
+        return new GetProductResponse(dto);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sevketbuyukdemir.product_service.events;
+package com.sevketbuyukdemir.product_service.event;
 
 import com.sevketbuyukdemir.product_service.constant.ProductEventType;
 import com.sevketbuyukdemir.product_service.entity.Product;
