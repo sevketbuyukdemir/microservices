@@ -18,7 +18,6 @@ public class ExceptionResponseHandler {
 
     @ExceptionHandler(value = { Exception.class, ClassNotFoundException.class })
     public ResponseEntity<BaseResponse> exceptionHandler(Exception exception) {
-        System.out.println("Exception: " + exception.getMessage());
         return new ResponseEntity<>(prepareExceptionResponse(ExceptionResponseMessages.GENERIC_ERROR.toString()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
