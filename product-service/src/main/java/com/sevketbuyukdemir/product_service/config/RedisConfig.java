@@ -8,7 +8,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 @Configuration
-@EnableRedisRepositories(basePackages = "com.sevketbuyukdemir.spring_data_redis.redisrepository")
+@EnableRedisRepositories(basePackages = "com.sevketbuyukdemir.product_service.redisrepository")
 public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
