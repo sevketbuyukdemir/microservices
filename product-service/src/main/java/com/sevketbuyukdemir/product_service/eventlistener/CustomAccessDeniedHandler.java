@@ -1,4 +1,4 @@
-package com.sevketbuyukdemir.product_service.event;
+package com.sevketbuyukdemir.product_service.eventlistener;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

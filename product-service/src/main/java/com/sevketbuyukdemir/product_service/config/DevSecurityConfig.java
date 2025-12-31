@@ -1,6 +1,6 @@
 package com.sevketbuyukdemir.product_service.config;
 
-import com.sevketbuyukdemir.product_service.event.CustomAccessDeniedHandler;
+import com.sevketbuyukdemir.product_service.eventlistener.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
