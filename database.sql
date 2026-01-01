@@ -61,3 +61,31 @@ CREATE TABLE IF NOT EXISTS product_attribute_map (
     CONSTRAINT `product_id_attribute_foreign_key` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
     CONSTRAINT `attribute_id_foreign_key` FOREIGN KEY (`attribute_id`) REFERENCES `product_attributes` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+
+# inventory-service database
+CREATE DATABASE IF NOT EXISTS inventoryservice;
+USE inventoryservice;
+CREATE USER IF NOT EXISTS 'inventory_service'@'%' IDENTIFIED BY 'inventory_service';
+GRANT ALL PRIVILEGES ON inventoryservice.* TO 'inventory_service'@'%';
+FLUSH PRIVILEGES;
+CREATE TABLE IF NOT EXISTS inventory (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `product_id` BIGINT NOT NULL,
+    `available_stock` INT NOT NULL DEFAULT 0,
+    `reserved_stock` INT NOT NULL DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_product_inventory (product_id)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS reservation (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    order_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_order_product (order_id, product_id)
+);

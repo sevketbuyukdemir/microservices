@@ -25,7 +25,7 @@ public class ProductEventListener {
         ProductEventType type = event.getType();
         Product product = event.getProduct();
         ProductDTO productDTO = new ProductDTO(product);
-        KafkaProductDTO dto = new KafkaProductDTO(type, productDTO);
+        KafkaProductDTO dto = new KafkaProductDTO(type, product.getId(), productDTO);
         productProducer.send(dto);
         if (type == ProductEventType.CREATED || type == ProductEventType.UPDATED) {
             ProductCache productCache = new ProductCache(productDTO);
