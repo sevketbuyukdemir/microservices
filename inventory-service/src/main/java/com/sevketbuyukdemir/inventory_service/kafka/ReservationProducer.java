@@ -12,7 +12,7 @@ public class ReservationProducer {
     private final KafkaTemplate<String, KafkaReservationDTO> kafkaTemplate;
 
     public void send(KafkaReservationDTO dto) {
-        kafkaTemplate.send("reservation-topic", String.valueOf(dto.getReservation().getOrderId()), dto);
+        kafkaTemplate.send("reservation-topic", String.valueOf(dto.getOrderId()), dto);
     }
 
 }

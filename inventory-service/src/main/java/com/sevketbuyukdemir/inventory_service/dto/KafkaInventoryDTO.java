@@ -6,10 +6,14 @@ import lombok.Data;
 @Data
 public class KafkaInventoryDTO {
     private InventoryEventType eventType;
-    private InventoryDTO inventory;
+    private long productId;
+    private int availableStock;
+    private int reservedStock;
 
     public KafkaInventoryDTO(InventoryEventType eventType, InventoryDTO inventory) {
         this.eventType = eventType;
-        this.inventory = inventory;
+        this.productId = inventory.getProductId();
+        this.availableStock = inventory.getAvailableStock();
+        this.reservedStock = inventory.getReservedStock();
     }
 }

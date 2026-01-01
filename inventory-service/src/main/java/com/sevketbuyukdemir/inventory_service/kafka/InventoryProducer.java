@@ -12,6 +12,6 @@ public class InventoryProducer {
     private final KafkaTemplate<String, KafkaInventoryDTO> kafkaTemplate;
 
     public void send(KafkaInventoryDTO dto) {
-        kafkaTemplate.send("inventory-topic", String.valueOf(dto.getInventory().getProductId()), dto);
+        kafkaTemplate.send("inventory-topic", String.valueOf(dto.getProductId()), dto);
     }
 }

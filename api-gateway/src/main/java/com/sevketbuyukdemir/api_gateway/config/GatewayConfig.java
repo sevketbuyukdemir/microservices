@@ -14,6 +14,10 @@ public class GatewayConfig {
                         r -> r.path("/products", "/products/**")
                                 .filters(f -> f.rewritePath("/products(?<remaining>/?.*)", "/${remaining}"))
                                 .uri("lb://product-service"))
+                .route("inventory-service-route",
+                        r -> r.path("/inventory", "/inventory/**")
+                                .filters(f -> f.rewritePath("/inventory(?<remaining>/?.*)", "/${remaining}"))
+                                .uri("lb://inventory-service"))
                 .build();
     }
 }

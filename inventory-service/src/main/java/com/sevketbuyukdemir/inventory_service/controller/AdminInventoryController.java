@@ -39,7 +39,7 @@ public class AdminInventoryController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/{productId}/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/{productId}/adjust", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BaseResponse> adjustStocks(Authentication authentication, HttpServletRequest request, @PathVariable("productId") String productId, @RequestBody AdjustStockRequest requestBody) {
         AdjustStockResponse response = inventoryService.adjustStocks(Long.parseLong(productId), requestBody);

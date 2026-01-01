@@ -12,7 +12,7 @@ public class ProductProducer {
     private final KafkaTemplate<String, KafkaProductDTO> kafkaTemplate;
 
     public void send(KafkaProductDTO dto) {
-        kafkaTemplate.send("product-topic", dto.getProduct().getName(), dto);
+        kafkaTemplate.send("product-topic", dto.getName(), dto);
     }
 
 }
