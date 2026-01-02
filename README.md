@@ -85,6 +85,7 @@ docker-compose down -v
 | Config Server     | 4001      | central config, registers with Consul |                                        |
 | Product Service   | 4002      |                                       |                                        |
 | Inventory Service | 4003      |                                       |                                        |
+| Order Service     | 4004      |                                       |                                        |
 
 # Technologies & Platforms
 

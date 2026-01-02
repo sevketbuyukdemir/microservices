@@ -89,3 +89,41 @@ CREATE TABLE IF NOT EXISTS reservation (
     PRIMARY KEY (id),
     UNIQUE KEY uq_order_product (order_id, product_id)
 );
+
+# order-service database
+CREATE DATABASE IF NOT EXISTS orderservice;
+USE orderservice;
+CREATE USER IF NOT EXISTS 'order_service'@'%' IDENTIFIED BY 'order_service';
+GRANT ALL PRIVILEGES ON orderservice.* TO 'order_service'@'%';
+FLUSH PRIVILEGES;
+CREATE TABLE IF NOT EXISTS orders (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `user_email` VARCHAR(255) NOT NULL,
+    `status` VARCHAR(32) NOT NULL,
+    `currency` CHAR(3) NOT NULL,
+    `total_amount` DECIMAL(19,4) NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS order_items (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `order_id` BIGINT NOT NULL,
+    `product_id` BIGINT NOT NULL,
+    `product_name` VARCHAR(255) NOT NULL,
+    `unit_price` DECIMAL(19,4) NOT NULL,
+    `quantity` INT NOT NULL,
+    `line_total` DECIMAL(19,4) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_order_item_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS order_events (
+    `id` BIGINT AUTO_INCREMENT,
+    `order_id` BIGINT NOT NULL,
+    `event_type` VARCHAR(64) NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_order_event_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
