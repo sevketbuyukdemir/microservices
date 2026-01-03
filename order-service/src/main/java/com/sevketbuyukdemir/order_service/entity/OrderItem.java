@@ -1,6 +1,7 @@
 package com.sevketbuyukdemir.order_service.entity;
 
 
+import com.sevketbuyukdemir.order_service.dto.OrderItemRequestDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,4 +36,14 @@ public class OrderItem {
 
     @Column(name = "line_total", nullable = false, precision = 19, scale = 4)
     private BigDecimal lineTotal;
+
+    public OrderItem() {}
+
+    public OrderItem(OrderItemRequestDTO request) {
+        this.productId = request.getProductId();
+        this.productName = request.getProductName();
+        this.unitPrice = request.getUnitPrice();
+        this.quantity = request.getQuantity();
+        this.lineTotal = unitPrice.multiply(new BigDecimal(quantity));
+    }
 }

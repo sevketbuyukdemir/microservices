@@ -1,6 +1,7 @@
 package com.sevketbuyukdemir.order_service.dto;
 
 
+import com.sevketbuyukdemir.order_service.constant.OrderStatus;
 import com.sevketbuyukdemir.order_service.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,29 +18,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO {
-
-    private Long id;
-
     private String userEmail;
-
-    private String status;
-
+    private OrderStatus status;
     private String currency;
-
     private BigDecimal totalAmount;
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
-
     private List<OrderItemDTO> items;
-
     private List<OrderEventDTO> events;
 
     public OrderDTO(Order order) {
-        this.id = order.getId();
         this.userEmail = order.getUserEmail();
-        this.status = order.getStatus().toString();
+        this.status = order.getStatus();
         this.currency = order.getCurrency();
         this.totalAmount = order.getTotalAmount();
         this.items = order.getItems().stream().map(OrderItemDTO::new).collect(Collectors.toList());

@@ -7,7 +7,7 @@ import java.util.Locale;
 public enum ReservationStatus {
     RESERVED,
     RELEASED,
-    FAILED;
+    SOLD;
 
     @JsonValue
     public String toLower() {

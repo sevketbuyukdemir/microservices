@@ -21,7 +21,7 @@ public class OrderEventListener {
         OrderEventType type = orderApplicationEvent.getType();
         Order order = orderApplicationEvent.getOrder();
         OrderDTO orderDTO = new OrderDTO(order);
-        KafkaOrderDTO dto = new KafkaOrderDTO(type, orderDTO);
+        KafkaOrderDTO dto = new KafkaOrderDTO(type, order.getId(), orderDTO);
         orderProducer.send(dto);
     }
 }

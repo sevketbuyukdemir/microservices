@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "order_events")
 public class OrderEvent {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,5 +30,11 @@ public class OrderEvent {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+    }
+
+    public OrderEvent() {}
+
+    public OrderEvent(OrderEventType eventType) {
+        this.eventType = eventType;
     }
 }

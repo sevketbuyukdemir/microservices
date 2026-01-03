@@ -11,21 +11,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class OrderItemDTO {
-
-    private Long id;
-
     private Long productId;
-
     private String productName;
-
     private BigDecimal unitPrice;
-
     private Integer quantity;
-
     private BigDecimal lineTotal;
 
     public OrderItemDTO(OrderItem orderItem) {
-        this.id = orderItem.getId();
         this.productId = orderItem.getProductId();
         this.productName = orderItem.getProductName();
         this.unitPrice = orderItem.getUnitPrice();

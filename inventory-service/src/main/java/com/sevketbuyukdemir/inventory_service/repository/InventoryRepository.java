@@ -30,4 +30,16 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
     int adjustStocks(@Param("productId") long productId,
                      @Param("availableStock") int availableStock,
                      @Param("reservedStock") int reservedStock);
+
+    @Modifying
+    @Query(value = "UPDATE inventory SET available_stock = available_stock - :quantity, reserved_stock  = reserved_stock + :quantity, updated_at = CURRENT_TIMESTAMP WHERE product_id = :productId AND available_stock >= :quantity", nativeQuery = true)
+    int reserveStock(@Param("productId") long productId, @Param("quantity") int quantity);
+
+    @Modifying
+    @Query(value = "UPDATE inventory SET available_stock = available_stock + :quantity, reserved_stock = reserved_stock - :quantity, updated_at = CURRENT_TIMESTAMP WHERE product_id = :productId AND reserved_stock >= :quantity", nativeQuery = true)
+    int undoReserveStock(@Param("productId") long productId, @Param("quantity") int quantity);
+
+    @Modifying
+    @Query(value = "UPDATE inventory SET reserved_stock = reserved_stock - :quantity, updated_at = CURRENT_TIMESTAMP WHERE product_id = :productId AND reserved_stock >= :quantity", nativeQuery = true)
+    int releaseReservedStock(@Param("productId") long productId, @Param("quantity") int quantity);
 }

@@ -1,4 +1,4 @@
-package com.sevketbuyukdemir.order_service.constant;
+package com.sevketbuyukdemir.inventory_service.constant;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

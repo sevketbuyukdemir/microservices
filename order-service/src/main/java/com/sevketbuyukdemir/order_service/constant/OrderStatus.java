@@ -9,8 +9,8 @@ public enum OrderStatus {
     INVENTORY_PENDING,
     INVENTORY_REJECTED,
     PAYMENT_PENDING,
-    CONFIRMED,
-    CANCELLED;
+    PAYMENT_REJECTED,
+    COMPLETED;
 
     @JsonValue
     public String toLower() {
