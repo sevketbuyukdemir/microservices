@@ -127,3 +127,39 @@ CREATE TABLE IF NOT EXISTS order_events (
     PRIMARY KEY (id),
     CONSTRAINT fk_order_event_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+
+# payment-service database
+CREATE DATABASE IF NOT EXISTS paymentservice;
+USE paymentservice;
+CREATE USER IF NOT EXISTS 'payment_service'@'%' IDENTIFIED BY 'payment_service';
+GRANT ALL PRIVILEGES ON paymentservice.* TO 'payment_service'@'%';
+FLUSH PRIVILEGES;
+CREATE TABLE IF NOT EXISTS payments (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    order_id BIGINT NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    amount DECIMAL(19,4) NOT NULL,
+    currency CHAR(3) NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    provider VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_payment_order (order_id)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS payment_attempts (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    payment_id BIGINT NOT NULL,
+    attempt_number INT NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    failure_reason VARCHAR(255),
+    idempotency_key VARCHAR(128) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_payment_attempt_idempotency (idempotency_key),
+    KEY idx_payment_attempt_payment (payment_id),
+    CONSTRAINT fk_payment_attempt_payment
+    FOREIGN KEY (payment_id) REFERENCES payments(id)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;

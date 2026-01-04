@@ -68,7 +68,7 @@ docker-compose down -v
 | Zookeeper         | 2181      | Client connections for Zookeeper      | -                                      |
 | ZooNavigator      | 9000      | Web UI for Zookeeper                  | [ZooNavigator](http://localhost:9000)  |
 | RabbitMQ          | 5672      | AMQP messaging port                   | -                                      |
-| RabbitMQ          | 15672     | RabbitMQ management web UI            | -                                      |
+| RabbitMQ          | 15672     | RabbitMQ management web UI            | [RabbitMQ](http://localhost:15672)     |
 | Redis             | 6379      | Redis default port                    | -                                      |
 | Kafka             | 9092      | Kafka broker port                     | -                                      |
 | Kafka UI          | 8082      | Web UI for Kafka                      | [Kafka UI](http://localhost:8082)      |
@@ -86,6 +86,7 @@ docker-compose down -v
 | Product Service   | 4002      |                                       |                                        |
 | Inventory Service | 4003      |                                       |                                        |
 | Order Service     | 4004      |                                       |                                        |
+| Payment Service   | 4005      |                                       |                                        |
 
 # Technologies & Platforms
 
@@ -163,3 +164,15 @@ docker-compose down -v
 - [New Relic](https://newrelic.com/)
 - [Dynatrace](https://www.dynatrace.com/)
 - [SigNoz](https://signoz.io/)
+
+> [!NOTE]
+> Windows NAT issue
+> If you face with error like below while running docker compose services in Windows PC,
+> ```
+> Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:3888 -> 0.0.0.0:0: listen tcp 0.0.0.0:3888: bind: An attempt was made to access a socket in a way forbidden by its access permissions.
+> ```
+> Solution:
+> 1. Run terminal (cmd) as administrator
+> 2. ```net stop WinNat```
+> 3. Run docker compose services
+> 4. ```net start WinNat```
