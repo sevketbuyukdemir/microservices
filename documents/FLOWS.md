@@ -1,21 +1,21 @@
 [← Return to home](../README.md)
 
-# Flows
+# Technical Flows
 
 ## Product Lifecycle
 
 ```mermaid
 sequenceDiagram
-    participant MO as MARKET_OWNER
-    participant PS as product-service
+    participant MO as MarketOwner
+    participant PS as ProductService
     participant K as Kafka
-    participant IS as inventory-service
+    participant IS as InventoryService
 
     MO->>PS: Create Product (REST API)
     PS->>K: Produce PRODUCT_CREATED
     K->>IS: Consume PRODUCT_CREATED
     IS-->>IS: Create inventory for product
-    IS->>K: INVENTORY_CREATED
+    IS->>K: Produce INVENTORY_CREATED
 
     MO->>PS: Update Product (REST API)
     PS->>K: Produce PRODUCT_UPDATED
@@ -25,15 +25,15 @@ sequenceDiagram
     PS->>K: Produce PRODUCT_DELETED
     K->>IS: Consume PRODUCT_DELETED
     IS-->>IS: Deactivate product inventory
-    IS->>K: INVENTORY_DEACTIVATED
+    IS->>K: Produce INVENTORY_DEACTIVATED
 ```
 
 ## Inventory & Stock Adjustments
 
 ```mermaid
 sequenceDiagram
-    participant MO as MARKET_OWNER
-    participant IS as inventory-service
+    participant MO as MarketOwner
+    participant IS as InventoryService
     participant K as Kafka
 
     MO->>IS: Adjust Inventory (REST API)
@@ -52,9 +52,9 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant C as CONSUMER
-    participant OS as order-service
+    participant OS as OrderService
     participant K as Kafka
-    participant IS as inventory-service
+    participant IS as InventoryService
 
     C->>OS: Create Order (REST API)
     OS->>K: Produce ORDER_INVENTORY_PENDING
@@ -70,9 +70,9 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant C as CONSUMER
-    participant OS as order-service
+    participant OS as OrderService
     participant K as Kafka
-    participant IS as inventory-service
+    participant IS as InventoryService
     participant MQ as RabbitMQ
 
     C->>OS: Create Order (REST API)
@@ -90,15 +90,15 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant MQ as RabbitMQ
-    participant PS as payment-service
+    participant PS as PaymentService
     participant K as Kafka
-    participant OS as order-service
-    participant IS as inventory-service
+    participant OS as OrderService
+    participant IS as InventoryService
 
     MQ->>PS: Process Payment
     PS->>K: Produce PAYMENT_FAILURE
     K->>OS: Consume PAYMENT_FAILURE
-    OS->>K: ORDER_PAYMENT_REJECTED
+    OS->>K: Produce ORDER_PAYMENT_REJECTED
     K->>IS: Consume ORDER_PAYMENT_REJECTED
     IS-->>IS: Release stock
     IS->>K: Produce STOCK_RELEASED
@@ -110,20 +110,19 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant MQ as RabbitMQ
-    participant PS as payment-service
+    participant PS as PaymentService
     participant K as Kafka
-    participant OS as order-service
-    participant IS as inventory-service
-    participant NS as notification-service
+    participant OS as OrderService
+    participant IS as InventoryService
+    participant NS as NotificationService
 
     MQ->>PS: Process Payment
     PS->>K: Produce PAYMENT_SUCCESS
     K->>OS: Consume PAYMENT_SUCCESS
     OS-->>OS: Complete order
-    OS->>K: ORDER_COMPLETED
+    OS->>K: Produce ORDER_COMPLETED
     K->>IS: Consume ORDER_COMPLETED
     IS-->>IS: Decrease reserved stock
-    IS->>K: Produce STOCK_DECREASED
     OS->>MQ: Send Notification message
 ```
 
@@ -132,7 +131,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant MQ as RabbitMQ
-    participant ES as email-service
+    participant ES as EmailService
 
     MQ->>ES: Process Notification
     ES-->>ES: Send email to customer
