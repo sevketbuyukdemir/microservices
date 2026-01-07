@@ -126,13 +126,27 @@ sequenceDiagram
     OS->>MQ: Send Notification message
 ```
 
-## Notification Flow
+## Success Notification Flow
 
 ```mermaid
 sequenceDiagram
     participant MQ as RabbitMQ
     participant ES as EmailService
 
-    MQ->>ES: Process Notification
+    MQ->>ES: Process Success Notification (Only Email Channel)
     ES-->>ES: Send email to customer
+```
+
+## Failure Notification Flow
+
+```mermaid
+sequenceDiagram
+    participant MQ as RabbitMQ
+    participant ES as EmailService
+    participant SS as SMSService
+
+    MQ->>ES: Process Failure Notification (All Channels)
+    MQ->>SS: Process Failure Notification (All Channels)
+    ES-->>ES: Send Email to customer
+    SS-->>SS: Send SMS to customer
 ```
