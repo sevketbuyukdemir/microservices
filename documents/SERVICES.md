@@ -26,3 +26,5 @@
 | Inventory Service | 4003      |                                       |                                        |
 | Order Service     | 4004      |                                       |                                        |
 | Payment Service   | 4005      |                                       |                                        |
+| Email Service     | 4006      |                                       |                                        |
+| SMS Service       | 4007      |                                       |                                        |
